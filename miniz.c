@@ -501,7 +501,7 @@ typedef enum
   MZ_ZIP_MODE_WRITING_HAS_BEEN_FINALIZED = 3
 } mz_zip_mode;
 
-typedef struct
+typedef struct mz_zip_archive_tag
 {
   mz_uint64 m_archive_size;
   mz_uint64 m_central_directory_file_ofs;
