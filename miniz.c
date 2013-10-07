@@ -2772,13 +2772,13 @@ void *tdefl_write_image_to_png_file_in_memory(const void *pImage, int w, int h, 
   for (z = 41; z; --z) tdefl_output_buffer_putter(&z, 1, &out_buf);
   // compress image data
   tdefl_init(pComp, tdefl_output_buffer_putter, &out_buf, TDEFL_DEFAULT_MAX_PROBES | TDEFL_WRITE_ZLIB_HEADER);
-  for (y = 0; y < h; ++y) { tdefl_compress_buffer(pComp, &z, 1, TDEFL_NO_FLUSH); tdefl_compress_buffer(pComp, (mz_uint8*)pImage + y * bpl, bpl, TDEFL_NO_FLUSH); }
+  for (y = 0; y < h; ++y) { tdefl_compress_buffer(pComp, &z, 1, TDEFL_NO_FLUSH); tdefl_compress_buffer(pComp, (mz_uint8 const*)pImage + y * bpl, bpl, TDEFL_NO_FLUSH); }
   if (tdefl_compress_buffer(pComp, NULL, 0, TDEFL_FINISH) != TDEFL_STATUS_DONE) { MZ_FREE(pComp); MZ_FREE(out_buf.m_pBuf); return NULL; }
   // write real header
   *pLen_out = out_buf.m_size-41;
   {
     mz_uint8 pnghdr[41]={0x89,0x50,0x4e,0x47,0x0d,0x0a,0x1a,0x0a,0x00,0x00,0x00,0x0d,0x49,0x48,0x44,0x52,
-      0,0,(mz_uint8)(w>>8),(mz_uint8)w,0,0,(mz_uint8)(h>>8),(mz_uint8)h,8,"\0\0\04\02\06"[num_chans],0,0,0,0,0,0,0,
+      0,0,(mz_uint8)(w>>8),(mz_uint8)w,0,0,(mz_uint8)(h>>8),(mz_uint8)h,8,(mz_uint8)("\0\0\04\02\06"[num_chans]),0,0,0,0,0,0,0,
       (mz_uint8)(*pLen_out>>24),(mz_uint8)(*pLen_out>>16),(mz_uint8)(*pLen_out>>8),(mz_uint8)*pLen_out,0x49,0x44,0x41,0x54};
     c=(mz_uint32)mz_crc32(MZ_CRC32_INIT,pnghdr+12,17); for (i=0; i<4; ++i, c<<=8) ((mz_uint8*)(pnghdr+29))[i]=(mz_uint8)(c>>24);
     memcpy(out_buf.m_pBuf, pnghdr, 41);
