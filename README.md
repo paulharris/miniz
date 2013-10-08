@@ -1,8 +1,10 @@
 miniz
 =====
 
-My patches on top of the original svn repo
+Patches on top of the original svn repo.
+
 https://code.google.com/p/miniz/
+
 svn checkout http://miniz.googlecode.com/svn/trunk/ miniz-read-only
 
 This git repo also includes all the upstream SVN checkins too.
